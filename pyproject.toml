@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "shellscope"
+version = "0.1.0"
+description = "Parse agent shell commands into read/write/delete/network effects and enforce deny rules (Claude Code Bash hook)."
+readme = "README.md"
+license = {text = "MIT"}
+authors = [{name = "Jatin Garg"}]
+requires-python = ">=3.9"
+dependencies = []
+
+[project.scripts]
+shellscope = "shellscope.cli:main"
+
+[tool.setuptools]
+packages = ["shellscope"]
+
+[tool.setuptools.package-data]
+shellscope = ["default.rules"]

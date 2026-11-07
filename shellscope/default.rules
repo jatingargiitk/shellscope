@@ -1,0 +1,39 @@
+# Default deny rules for coding-agent Bash (shellscope).
+# Format: deny <kind> <pattern>
+# Kinds: read | write | delete | network | binary | command
+#
+# Maps roughly from Claude Code permission denies:
+#   Read(.env) / Read(**/.env*)     ->  deny read **/.env*
+#   Edit(.env) / Edit(~/.ssh/**)    ->  deny write …
+#   Bash(curl *) / Bash(wget *)     ->  deny binary curl / deny network *
+#   Bash(rm -rf /)                  ->  deny command rm -rf /  (+ delete /)
+
+# Secrets and SSH keys
+deny read  **/.env
+deny read  **/.env.*
+deny read  **/.env*
+deny write **/.env
+deny write **/.env.*
+deny write **/.env*
+deny read  ~/.ssh/**
+deny write ~/.ssh/**
+deny write **/id_rsa
+deny write **/id_ed25519
+
+# Destructive filesystem ops (exact root + classic wipe commands)
+deny delete /
+deny command rm -rf /
+deny command rm -rf /*
+deny command mkfs
+
+# Network exfil / arbitrary hosts (tighten host patterns in your own rules file)
+deny binary curl
+deny binary wget
+deny binary nc
+deny binary ncat
+deny binary netcat
+deny network *
+
+# Remote shells
+deny binary ssh
+deny binary scp

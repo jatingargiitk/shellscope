@@ -1,0 +1,4 @@
+ls -la
+python -m pytest tests/
+cat README.md | head -20
+mkdir -p build && touch build/.gitkeep
